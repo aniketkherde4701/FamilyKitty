@@ -150,6 +150,13 @@ def sw():
 @app.route("/health")
 def health(): return jsonify({"ok":True,"app":"FamilyKitty"})
 
-if __name__=="__main__":
-    init()
-    app.run(host="0.0.0.0",port=int(os.environ.get("PORT",5000)),debug=True)
+# Initialize the SQLite database when Gunicorn imports this module.
+# This ensures the tables and demo data exist on Render as well as locally.
+init()
+
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=True
+    )
